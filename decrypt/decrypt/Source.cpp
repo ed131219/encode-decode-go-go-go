@@ -1,31 +1,109 @@
-#include<stdio.h>
 #include<iostream>
 #include<string>
-#include <iomanip>
 #include<vector>
 using namespace std;
-std::string lower(std::string t) {
-	for (int i = 0; i < t.length(); i++) {
-		t[i] = tolower(t[i]);
+//function prototype
+std::string lower(std::string t);
+string todigit(int num);
+int toint(string digit);
+string Xor(string a, string b);
+void Caesar_cipher(std::string message, int keynum);
+void Monoalphabetic_cipher(std::string message, const std::string key);
+void Playfair_cipher(std::string message, std::string key);
+void Vernam_cipher(string message, string key);
+void Row_transposition(std::string message, vector<int> key);
+void Product_cipher(std::string message, vector<int> key);
+//main
+int main()
+{
+	bool isContinue = true;
+	while (isContinue) {
+		vector<int> inputlist;
+		std::string inputString = "", inputkeyString = "";
+		int i = 0, inputnum = 0, num = 0, typeOfdecrypt = 0;
+		std::cout << "(1:Caesar cipher, 2:Monoalphabetic cipher, 3:Playfair cipher, 4:Vernam cipher, 5:Row transposition, 6:Product cipher)" << endl;
+		std::cout << "Please input your encrypt type : ";
+		std::cin >> typeOfdecrypt;
+		switch (typeOfdecrypt)
+		{
+		case 1:
+			std::cout << "Please input cipher :";
+			std::cin >> inputString;
+			std::cout << "Please input key num :";
+			std::cin >> inputnum;
+			std::cout << endl;
+			std::cout << "You choose Caesar cipher" << endl;
+			Caesar_cipher(inputString, inputnum);
+			break;
+		case 2:
+		case 3:
+		case 4:
+			std::cout << "Please input cipher :";
+			std::cin >> inputString;
+			std::cout << "Please input key string :";
+			std::cin >> inputkeyString;
+			std::cout << endl;
+			if (typeOfdecrypt == 2) {
+				std::cout << "You choose Monoalphabetic cipher" << endl;
+				Monoalphabetic_cipher(inputString, inputkeyString);
+			}
+			else if (typeOfdecrypt == 3) {
+				std::cout << "You choose Playfair cipher" << endl;
+				Playfair_cipher(inputString, inputkeyString);
+			}
+			else if (typeOfdecrypt == 4) {
+				std::cout << "You choose Vernam cipher" << endl;
+				Vernam_cipher(inputString, inputkeyString);
+			}
+			break;
+		case 5:
+		case 6:
+			std::cout << "Please input cipher :";
+			std::cin >> inputString;
+			std::cout << "Please input length of key :";
+			std::cin >> inputnum;
+			std::cout << endl;
+			while (i < inputnum) {
+				std::cout << "still need to input " << inputnum - i << " number" << endl;
+				std::cout << "num = ";
+				std::cin >> num;
+				inputlist.push_back(num);
+				i++;
+			}
+			if (typeOfdecrypt == 5) {
+				std::cout << "You choose Row transposition" << endl;
+				Row_transposition(inputString, inputlist);
+			}
+			else {
+				std::cout << "You choose Product cipher" << endl;
+				Product_cipher(inputString, inputlist);
+			}
+			inputlist.clear();
+			break;
+		default:
+			break;
+		}
+		std::cout << "Continue press 1, exit press 0" << endl;
+		std::cin >> isContinue;
 	}
-	return t;
+	return 0;
 }
-
-void Caesar_cipher(std::string message) {
+//function implement
+void Caesar_cipher(std::string message, int keynum) {
 	char output = ' ';
-	std::cout << std::left << std::setw(22) << "Caesar cipher "<<" : ";
+	std::cout << "Caesar cipher " << " : ";
 	std::cout << message << " ---> ";
 	for (int i = 0; message[i] != '\0'; i++) {
 		output = message[i];
-		std::cout << char(tolower(((output - 'Z') - 7) % 26 + 'Z'));
+		std::cout << char(tolower(((output - 'Z') - keynum) % 26 + 'Z'));
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
-void Monoalphabetic_cipher(std::string message,const std::string key) {
+void Monoalphabetic_cipher(std::string message, const std::string key) {
 	char output = ' ';
 	const std::string alpha = "zyxwvutsrqponmlkjihgfedcba";
-	std::cout << std::left << std::setw(22) << "Monoalphabetic cipher "<<" : ";
+	std::cout << "Monoalphabetic cipher " << " : ";
 	std::cout << message << " ---> ";
 	for (int i = 0; i < message.size(); i++) {
 		for (int j = 0; j < key.size(); j++) {
@@ -34,7 +112,7 @@ void Monoalphabetic_cipher(std::string message,const std::string key) {
 		}
 		std::cout << output;
 	}
-	std::cout<<std::endl;
+	std::cout << std::endl;
 	std::cout << std::endl;
 }
 void Playfair_cipher(std::string message, std::string key) {
@@ -43,11 +121,11 @@ void Playfair_cipher(std::string message, std::string key) {
 	for (int i = 0; i < key.size(); i++) {
 		for (int j = 0; j < keyString.size(); j++) {
 			if (key[i] == keyString[j])
-				keyString.erase(j,1);
+				keyString.erase(j, 1);
 		}
 	}
 	keyString = key + keyString;
-	std::cout << std::left << std::setw(22) << "Playfair cipher " << " : ";
+	std::cout << "Playfair cipher " << " : ";
 	std::cout << message << " ---> ";
 	for (int i = 0; i < message.length(); i += 2) {
 		for (int j = 0; j < keyString.length(); j++) {
@@ -67,7 +145,7 @@ void Playfair_cipher(std::string message, std::string key) {
 			std::swap(index1[1], index2[1]);
 		}
 		if (index1[0] == index2[0] && index1[1] != index2[1]) {
-			index1[1] = ((index1[1] - 1) >= 0) ?  (index1[1] - 1) % 5 : (index1[1] + 4) % 5;
+			index1[1] = ((index1[1] - 1) >= 0) ? (index1[1] - 1) % 5 : (index1[1] + 4) % 5;
 			index2[1] = ((index2[1] - 1) >= 0) ? (index2[1] - 1) % 5 : (index2[1] + 4) % 5;
 		}
 		if (index1[0] != index2[0] && index1[1] == index2[1]) {
@@ -77,43 +155,58 @@ void Playfair_cipher(std::string message, std::string key) {
 		std::cout << char(tolower(keyString[(index1[0] * 5 + index1[1])])) << char(tolower(keyString[(index2[0] * 5 + index2[1])]));
 	}
 	std::cout << std::endl;
-	for (int i = 0; i < keyString.size(); i++) {
-		std::cout << keyString[i] << ' ';
-		if ((i + 1) % 5 == 0)
-			std::cout << std::endl;
-	}
 }
-void Row_transposition(std::string message, int key[]) {
-	std::cout << std::left << std::setw(22) << "Row transposition " << " : ";
+void Vernam_cipher(string message, string key) {
+	std::cout << "Vernam cipher " << " : ";
 	std::cout << message << " ---> ";
-	char temp = ' ';
-	std::string output = "";
-	//int Arr1[8] = { 3, 1, 5, 6, 2, 4, 8, 7 };
-	cout << "array (on stack): ";
-	cout << sizeof(key) / sizeof(key[0]) << endl;
-	for (int i = 0,count = 0; i < message.size(); i+=8) {
-		for (int j = 0; j < sizeof(key)/sizeof(key[0]); j++) {
+	for (int i = 0, k = 0; i < message.size(); i += 3) {
+		for (int j = 0; j < key.size(); j++) {
+			if (k >= message.size())
+				break;
+			char code = char(toint(Xor(todigit(message[k] - 'A'), todigit(key[j] - 'A'))) + 'A');
+			key[j] = code;
+			std::cout << char(tolower(code));
+			k++;
+		}
+	}
+	std::cout << endl;
+}
+void Row_transposition(std::string message, vector<int> key) {
+	std::cout << "Row transposition " << " : ";
+	std::cout << message << " ---> ";
+	int div = message.size() / key.size();
+	int mod = message.size() % key.size();
+	vector<int> listCount;
+	for (int i = 0; i < mod; i++) {
+		listCount.push_back(key[i]);
+	}
+	for (int i = 0, count = 0; i < message.size(); i += 8) {
+		for (int j = 0; j < key.size(); j++) {
 			count++;
 			if (count > message.size())
 				break;
 			int index = 0;
 			for (int k = 1; k < key[j]; k++) {
-				if (k == 3 || k == 1 || k == 5 || k == 6) {
-					index += 3;
+				bool countExtra = 0;
+				for (int m = 0; m < listCount.size(); m++) {
+					if (k == listCount[m]) {
+						index += (div + 1);
+						countExtra = true;
+					}
 				}
-				else
+				if (!countExtra)
 					index += 2;
 			}
-			std::cout << (char)(tolower(message[index + (i / 8)]));	
-		}	
+			std::cout << (char)(tolower(message[index + (i / key.size())]));
+		}
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
-void Product_cipher(std::string message, int* key) {
-	std::cout << std::left << std::setw(22) << "Product cipher " << " : ";
+void Product_cipher(std::string message, vector<int> key) {
+	std::cout << "Product cipher " << " : ";
 	std::cout << message << " ---> ";
-	int temp =0;
+	int temp = 0;
 	char tmp = ' ';
 	for (int i = 0; i < message.size(); i++) {
 		for (int j = 0; j < message.size() - i - 1; j++) {
@@ -122,7 +215,7 @@ void Product_cipher(std::string message, int* key) {
 				std::swap(key[j], key[j + 1]);
 				tmp = message[j];
 				message[j] = message[j + 1];
-				message[j + 1] = tmp;				
+				message[j + 1] = tmp;
 			}
 		}
 	}
@@ -130,9 +223,15 @@ void Product_cipher(std::string message, int* key) {
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
+std::string lower(std::string t) {
+	for (int i = 0; i < t.length(); i++) {
+		t[i] = tolower(t[i]);
+	}
+	return t;
+}
 string todigit(int num) {
 	char digit[5] = { '0','0','0','0','0' };
-	for (int i = 4; num > 0; --i) {
+	for (int i = 4; num > 0; i--) {
 		digit[i] = (num % 2) + '0';
 		num = num / 2;
 	}
@@ -149,54 +248,4 @@ string Xor(string a, string b) {
 		code[i] = ((a[i] - '0') ^ (b[i] - '0')) + '0';
 	}
 	return code;
-}
-string Upper(string t) {
-	for (int i = 0; i < t.length(); i++) {
-		t[i] = toupper(t[i]);
-	}
-	return t;
-}
-void Vernam_cipher(string text,string key) {
-	for (int i = 0,k=0; i < text.size();i+=3) {
-		for (int j = 0; j < key.size(); j++) {
-			if (k >= text.size())
-				break;
-			char code = char(toint(Xor(todigit(text[k] - 'A'), todigit(key[j] - 'A'))) + 'A');
-			key[j] = code;
-			cout << code;
-			k++;
-		}	
-	}
-}
-
-
-void row(string message, string key) {
-	size_t newSize = key.size();
-	int* newArr = new int[newSize];
-
-}
-int main()
-{
-	string plaintext = "keepgoingnevergiveup", upperplaintext, GGBIG = "IKJNIDKDLPKYG'LK\\JWB";
-	upperplaintext = Upper(plaintext);
-	//char ch = ' ';
-	std::string message[6] = { "RLLWNVPUNULCLYNPCLBW", "ATTHUGOFUFTCTKUOCTXH", "MCCROUALFOCXMXDBXCPQ",
-									"IKJFCKHLIFJTJVTMECCA", "IKJNIDKDLPKYG`LK\JWB", "GEUEIEIREPPVGOKGVENN" };
-
-	//const std::string MonoaKey = "MNBVCXZLKJHGFDSAPOIUYTREWQ";
-	//int ProductKey[20] = { 15,11,19,18,16,3,7,14,2,20,4,12,9,6,1,5,17,13,10,8 };
-	int RowKey[8] = { 3, 1, 5, 6, 2, 4, 8, 7 };  //key = 31562487
-	//const std::string ke = "CONCONCONCONCONCONCO";
-	//string plainkey = "CONKEEPGOINGNEVERGIV";
-	//const std::string k = "IKJNIDKDLPKYG`LK\JWB";
-	const std::string newkey = "IKJFCKHLIFJTJVTMEC][";
-	//Caesar_cipher(message[0]);
-	//Monoalphabetic_cipher(message[1], MonoaKey);
-	//Playfair_cipher(message[2], "HIT");
-	//Vernam_cipher(message[4], "CON");
-	Row_transposition(message[4], RowKey);
-	//Product_cipher(message[5], ProductKey);
-	//Vernam_cipher(newkey,"CON");
-	
-	return 0;
 }
