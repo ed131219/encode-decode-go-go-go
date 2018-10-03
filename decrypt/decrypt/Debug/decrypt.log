@@ -1,15 +1,19 @@
 ﻿  Source.cpp
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(8): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(30): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(31): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(43): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(44): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(52): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(53): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(80): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(104): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(165): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(181): warning C4018: '<': signed/unsigned 不相符
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(192): warning C4129: 'J': 無法辨識的字元逸出序列
-c:\users\晨竹\desktop\decrypt\decrypt\source.cpp(198): warning C4129: 'J': 無法辨識的字元逸出序列
-  decrypt.vcxproj -> C:\Users\晨竹\Desktop\decrypt\Debug\decrypt.exe
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(8): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(30): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(31): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(43): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(44): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(52): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(53): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(80): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(94): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(97): warning C4018: '>': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(118): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(119): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(154): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(160): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(161): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(162): warning C4018: '>=': signed/unsigned 不相符
+c:\users\user\desktop\encode-decode-go-go-go\decrypt\decrypt\source.cpp(184): warning C4129: 'J': 無法辨識的字元逸出序列
+  decrypt.vcxproj -> C:\Users\user\Desktop\encode-decode-go-go-go\decrypt\Debug\decrypt.exe
