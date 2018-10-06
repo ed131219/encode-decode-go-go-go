@@ -1,13 +1,1 @@
-﻿  Source.cpp
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(10): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(18): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(25): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(33): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(45): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(46): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(73): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(82): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(84): warning C4018: '>=': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(98): warning C4018: '<=': signed/unsigned 不相符
-c:\users\user\documents\github\encode-decode-go-go-go\cipher\cipher\source.cpp(115): warning C4018: '<': signed/unsigned 不相符
-  Cipher.vcxproj -> C:\Users\User\Documents\GitHub\encode-decode-go-go-go\Cipher\Debug\Cipher.exe
+﻿  Cipher.vcxproj -> C:\Users\user\Desktop\encode-decode-go-go-go\Cipher\Debug\Cipher.exe
