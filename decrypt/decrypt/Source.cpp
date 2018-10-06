@@ -9,8 +9,8 @@ int toint(string digit);
 string Xor(string a, string b);
 void Caesar_cipher(std::string message, int keynum);
 void Monoalphabetic_cipher(std::string message, const std::string key);
-void Playfair_cipher(std::string message, std::string key);
-void Vernam_cipher(string message, string key);
+void Playfair_cipher(std::string message, std::string key);   //有問題
+void Vernam_cipher(string message, string key);               //有問題
 void Row_transposition(std::string message, vector<int> key);
 void Product_cipher(std::string message, vector<int> key);
 //main
@@ -83,7 +83,7 @@ int main()
 		default:
 			break;
 		}
-		std::cout << "Continue press 1, exit press 0" << endl;
+		std::cout << endl << "Continue press 1, exit press 0" << endl;
 		std::cin >> isContinue;
 	}
 	return 0;
@@ -129,9 +129,6 @@ void Playfair_cipher(std::string message, std::string key) {
 	std::cout << message << " ---> ";
 	for (int i = 0; i < message.length(); i += 2) {
 		for (int j = 0; j < keyString.length(); j++) {
-			if (message[i] == message[i + 1]) {
-				message[i + 1] = 'X';
-			}
 			if (message[i] == keyString[j]) {
 				index1[0] = (j) / 5;
 				index1[1] = (j) % 5;
@@ -140,6 +137,10 @@ void Playfair_cipher(std::string message, std::string key) {
 				index2[0] = (j) / 5;
 				index2[1] = (j) % 5;
 			}
+		}
+		if (index1[0] == index2[0] && index1[1] == index2[1]) {
+			index1[0] = (index1[0] + 4) % 5;
+			index2[0] = (index2[0] + 4) % 5;
 		}
 		if (index1[0] != index2[0] && index1[1] != index2[1]) {
 			std::swap(index1[1], index2[1]);
@@ -157,9 +158,9 @@ void Playfair_cipher(std::string message, std::string key) {
 	std::cout << std::endl;
 }
 void Vernam_cipher(string message, string key) {
-	std::cout << "Vernam cipher " << " : ";
+	std::cout << endl << "Vernam cipher " << " : ";
 	std::cout << message << " ---> ";
-	for (int i = 0, k = 0; i < message.size(); i += 3) {
+	for (int i = 0, k = 0; i < message.size(); i += key.size()) {
 		for (int j = 0; j < key.size(); j++) {
 			if (k >= message.size())
 				break;
@@ -195,7 +196,7 @@ void Row_transposition(std::string message, vector<int> key) {
 					}
 				}
 				if (!countExtra)
-					index += 2;
+					index += div;
 			}
 			std::cout << (char)(tolower(message[index + (i / key.size())]));
 		}
