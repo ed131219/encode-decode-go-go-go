@@ -4,13 +4,13 @@
 using namespace std;
 //function prototype
 std::string lower(std::string t);
-string todigit(int num);
-int toint(string digit);
-string Xor(string a, string b);
+string getDigit(int num);
+int transNum(string digit);
+string exclusive(string input1, string input2);
 void Caesar_cipher(std::string message, int keynum);
 void Monoalphabetic_cipher(std::string message, const std::string key);
-void Playfair_cipher(std::string message, std::string key);
-void Vernam_cipher(string message, string key);
+void Playfair_cipher(std::string message, std::string key);   
+void Vernam_cipher(string message, string key);               
 void Row_transposition(std::string message, vector<int> key);
 void Product_cipher(std::string message, vector<int> key);
 //main
@@ -83,7 +83,7 @@ int main()
 		default:
 			break;
 		}
-		std::cout << "Continue press 1, exit press 0" << endl;
+		std::cout << endl << "Continue press 1, exit press 0" << endl;
 		std::cin >> isContinue;
 	}
 	return 0;
@@ -95,7 +95,7 @@ void Caesar_cipher(std::string message, int keynum) {
 	std::cout << message << " ---> ";
 	for (int i = 0; message[i] != '\0'; i++) {
 		output = message[i];
-		std::cout << char(tolower(((output - 'Z') - keynum) % 26 + 'Z'));
+		std::cout << char(tolower(((output - 'Z') - keynum) % 26 + 'Z'));   
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
@@ -118,7 +118,7 @@ void Monoalphabetic_cipher(std::string message, const std::string key) {
 void Playfair_cipher(std::string message, std::string key) {
 	int index1[2], index2[2];
 	std::string keyString = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-	for (int i = 0; i < key.size(); i++) {
+	for (int i = 0; i < key.size(); i++) {             //把 key 拿出來放前面，上下的照著排
 		for (int j = 0; j < keyString.size(); j++) {
 			if (key[i] == keyString[j])
 				keyString.erase(j, 1);
@@ -127,11 +127,8 @@ void Playfair_cipher(std::string message, std::string key) {
 	keyString = key + keyString;
 	std::cout << "Playfair cipher " << " : ";
 	std::cout << message << " ---> ";
-	for (int i = 0; i < message.length(); i += 2) {
+	for (int i = 0; i < message.length(); i += 2) {    //每次只看兩個
 		for (int j = 0; j < keyString.length(); j++) {
-			if (message[i] == message[i + 1]) {
-				message[i + 1] = 'X';
-			}
 			if (message[i] == keyString[j]) {
 				index1[0] = (j) / 5;
 				index1[1] = (j) % 5;
@@ -141,14 +138,18 @@ void Playfair_cipher(std::string message, std::string key) {
 				index2[1] = (j) % 5;
 			}
 		}
-		if (index1[0] != index2[0] && index1[1] != index2[1]) {
+		if (index1[0] == index2[0] && index1[1] == index2[1]) {  //同一行同一列，都換成上面那個字母
+			index1[0] = (index1[0] + 4) % 5;
+			index2[0] = (index2[0] + 4) % 5;
+		}
+		if (index1[0] != index2[0] && index1[1] != index2[1]) {   //不同行不同列，兩個交換到對方的那行
 			std::swap(index1[1], index2[1]);
 		}
-		if (index1[0] == index2[0] && index1[1] != index2[1]) {
+		if (index1[0] == index2[0] && index1[1] != index2[1]) {   //同列不同行，-1往左移，若是第一個元素則跳回去最後
 			index1[1] = ((index1[1] - 1) >= 0) ? (index1[1] - 1) % 5 : (index1[1] + 4) % 5;
 			index2[1] = ((index2[1] - 1) >= 0) ? (index2[1] - 1) % 5 : (index2[1] + 4) % 5;
 		}
-		if (index1[0] != index2[0] && index1[1] == index2[1]) {
+		if (index1[0] != index2[0] && index1[1] == index2[1]) {   //不同列同行，-1往上移，若是第一個元素則跳回去最後
 			index1[0] = ((index2[0] - 1) >= 0) ? (index1[0] - 1) % 5 : (index1[0] + 4) % 5;
 			index2[0] = ((index2[0] - 1) >= 0) ? (index2[0] - 1) % 5 : (index2[0] + 4) % 5;
 		}
@@ -157,15 +158,19 @@ void Playfair_cipher(std::string message, std::string key) {
 	std::cout << std::endl;
 }
 void Vernam_cipher(string message, string key) {
-	std::cout << "Vernam cipher " << " : ";
+	std::cout << endl << "Vernam cipher " << " : ";
 	std::cout << message << " ---> ";
-	for (int i = 0, k = 0; i < message.size(); i += 3) {
+	for (int i = 0, k = 0; i < message.size(); i += key.size()) {
 		for (int j = 0; j < key.size(); j++) {
+			std::string aChar = "", bChar = "",exAns="";
 			if (k >= message.size())
 				break;
-			char code = char(toint(Xor(todigit(message[k] - 'A'), todigit(key[j] - 'A'))) + 'A');
-			key[j] = code;
-			std::cout << char(tolower(code));
+			aChar = getDigit(message[k] - 'A');     //轉成5位元
+			bChar = getDigit(key[j] - 'A');         //轉成5位元
+			exAns = exclusive(aChar, bChar);		//互斥或
+			char ans = char(transNum(exAns)) + 'A'; //轉回去數字，並且用 char 形式 print 出來
+			key[j] = ans;
+			std::cout << char(tolower(ans));
 			k++;
 		}
 	}
@@ -177,10 +182,10 @@ void Row_transposition(std::string message, vector<int> key) {
 	int div = message.size() / key.size();
 	int mod = message.size() % key.size();
 	vector<int> listCount;
-	for (int i = 0; i < mod; i++) {
+	for (int i = 0; i < mod; i++) {			//把多出一個字母的那行數字放入 vector
 		listCount.push_back(key[i]);
 	}
-	for (int i = 0, count = 0; i < message.size(); i += 8) {
+	for (int i = 0, count = 0; i < message.size(); i += key.size()) {
 		for (int j = 0; j < key.size(); j++) {
 			count++;
 			if (count > message.size())
@@ -188,14 +193,14 @@ void Row_transposition(std::string message, vector<int> key) {
 			int index = 0;
 			for (int k = 1; k < key[j]; k++) {
 				bool countExtra = 0;
-				for (int m = 0; m < listCount.size(); m++) {
+				for (int m = 0; m < listCount.size(); m++) {   
 					if (k == listCount[m]) {
-						index += (div + 1);
-						countExtra = true;
+						index += (div + 1);				//只要現在找的數字在 vector 裡面有，index 就要多加一個
+						countExtra = true;				//設為 true，跳出迴圈後判斷 true 就不再加 index
 					}
 				}
-				if (!countExtra)
-					index += 2;
+				if (!countExtra)						//false 表示不再 vector 裡面，不用多加一個，照原本的加
+					index += div;
 			}
 			std::cout << (char)(tolower(message[index + (i / key.size())]));
 		}
@@ -212,7 +217,7 @@ void Product_cipher(std::string message, vector<int> key) {
 		for (int j = 0; j < message.size() - i - 1; j++) {
 			if (key[j] > key[j + 1])
 			{
-				std::swap(key[j], key[j + 1]);
+				std::swap(key[j], key[j + 1]);    //利用數字去做排列，把對應的 char 也跟著交換
 				tmp = message[j];
 				message[j] = message[j + 1];
 				message[j + 1] = tmp;
@@ -223,29 +228,29 @@ void Product_cipher(std::string message, vector<int> key) {
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
-std::string lower(std::string t) {
-	for (int i = 0; i < t.length(); i++) {
-		t[i] = tolower(t[i]);
+std::string lower(std::string input) {
+	for (int i = 0; i < input.length(); i++) {
+		input[i] = tolower(input[i]);
 	}
-	return t;
+	return input;
 }
-string todigit(int num) {
+string getDigit(int count) {
 	char digit[5] = { '0','0','0','0','0' };
-	for (int i = 4; num > 0; i--) {
-		digit[i] = (num % 2) + '0';
-		num = num / 2;
+	for (int i = 4; count > 0; i--) {
+		digit[i] = (count % 2) + '0';
+		count = count / 2;
 	}
 	return digit;
 }
-int toint(string digit) {
-	int num;
-	num = (digit[0] - '0') * 16 + (digit[1] - '0') * 8 + (digit[2] - '0') * 4 + (digit[3] - '0') * 2 + (digit[4] - '0') * 1;
-	return num;
+int transNum(string input) {
+	int trans;
+	trans = (input[0] - '0') * 16 + (input[1] - '0') * 8 + (input[2] - '0') * 4 + (input[3] - '0') * 2 + (input[4] - '0') * 1;
+	return trans;
 }
-string Xor(string a, string b) {
-	char code[5];
+string exclusive(string input1, string input2) {
+	char digitChar[5];
 	for (int i = 0; i < 5; i++) {
-		code[i] = ((a[i] - '0') ^ (b[i] - '0')) + '0';
+		digitChar[i] = ((input1[i] - '0') ^ (input2[i] - '0')) + '0';
 	}
-	return code;
+	return digitChar;
 }
