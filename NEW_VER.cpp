@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <vector>
+#include <sstream>  
 
 using namespace std;
 
@@ -16,7 +18,7 @@ void Caesar_cipher(string text,int key ) {
 
 	cout << left << setw(ww) << "Caesar cipher" << ": ";
 	for (int i = 0; i < text.length(); i++) {
-		cout << char(((text[i] - 'A') + 7) % 26 + 'A');
+		cout << char(((text[i] - 'A') + key) % 26 + 'A');
 	}
 	cout << endl;
 }
@@ -78,7 +80,7 @@ void Playfair_cipher(string text, string key) {
 
 	}
 }
-string todigit(int num) {
+string todigit(int num) {	//р计锣Θ5计2秈计
 	char digit[5] = {'0','0','0','0','0'};
 	for (int i = 4; num > 0 ; --i) {
 		digit[i] = (num % 2) + '0';
@@ -86,12 +88,12 @@ string todigit(int num) {
 	}
 	return digit;
 }
-int toint(string digit) {
+int toint(string digit) {	//р2秈计锣Θ10秈
 	int num;
 	num = (digit[0]- '0') * 16 + (digit[1] - '0') * 8 + (digit[2] - '0') * 4 + (digit[3] - '0') * 2 + (digit[4] - '0') * 1;
 	return num;
 }
-string Xor(string a, string b) {
+string Xor(string a, string b) {	//盢a ㎝ b暗がジ┪ 
 	char code[5];
 	for (int i = 0;i < 5; i++) {
 		code[i] = ((a[i] - '0') ^ (b[i] - '0')) + '0';
@@ -101,7 +103,6 @@ string Xor(string a, string b) {
 void Vernam_cipher(string text, string key) {
 	cout << left << setw(ww) << "Vernam cipher" << ": ";
 		for (int i = 0, j = 0, flag = 0; i < text.length(); ++i) {
-			//cout << (char)((((text[i] - 'A') ^ (key[j] - 'A')) % 26 ) + 'A');
 			char code = char(toint(Xor(todigit(text[i] - 'A'), todigit(key[j] - 'A'))) % 26 + 'A');
 			cout << code;
 
@@ -142,27 +143,29 @@ void Row_transposition(string text, string key) {
 	}
 	cout << endl;
 }
-void Product_cipher(string text, string key) {
+void Product_cipher(string text, vector<int> key) {
 	cout << left << setw(ww) << "Product cipher" << ": ";
-	int a[20] = { 15,11,19,18,16,3,7,14,2,20,4,12,9,6,1,5,17,13,10,8 };
-	for (int i = 0; i < 20; i++) {
-		cout << text[a[i] - 1];
+	for (int i = 0; i < text.length(); i++) {
+		cout << text[key[i] - 1];
 	}
 	cout << endl;
 }
 int main() {
-	string plaintext = "keepgoingnevergiveup",upperplaintext,GGBIG = "IKJNIDKDLPKYG'LK\\JWB",pt, key;
+	string plaintext = "keepgoingnevergiveup",upperplaintext,GGBIG = "IKJNIDKDLPKYG'LK\\JWB",pt, key, token;
 	int mode = -1, intkey;
+	vector<int> vkey;
 	cout << "Choose cipher : " << endl;
 	cout << "1.Caesar_cipher" << endl << "2.Monoalphabetic_cipher" << endl << "3.Playfair_cipher" << endl;
 	cout << "4.Vernam_cipher" << endl << "5.Row_transposition" << endl << "6.Product_cipher" << endl << "0.Exit" << endl;
 	while (1) {
+		cout << left << setw(ww) << "Enter a cipher you want " << ": ";
 		cin >> mode;
 		if (mode == 0)
 			break;
 		cout << left << setw(ww) << "Please enter the plaintext " << ": ";
 		cin >> pt;
 		pt = Upper(pt);
+
 		switch (mode) 
 		{
 		case 1:
@@ -211,14 +214,22 @@ int main() {
 
 			break;
 		case 6:
+		{
 			cout << "Enter the key : ";
-			cin >> key;
+			getchar();
+			getline(cin, key);
+			stringstream ss(key);
+			while (getline(ss, token, ' '))
+			{
+				vkey.push_back(stoi(token));
+			}
 
 			cout << "---------------------------------------------------------------" << endl;
-			Product_cipher(pt, Upper(key));
+			Product_cipher(pt, vkey);
 			cout << "---------------------------------------------------------------" << endl;
 
 			break;
+		}
 		default:
 			cout << "Wrong input, try again." << endl;	
 		}
@@ -233,6 +244,5 @@ int main() {
 		//Row_transposition(upperplaintext, "31562487");
 		//Product_cipher(upperplaintext, "15 11 19 18 16 03 07 14 02 20 04 12 09 06 01 05 17 13 10 08");
 	}
-	system("pause");
 	return 0;
 }
